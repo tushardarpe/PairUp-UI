@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "devTinder-web": {
+    "pairUp-web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "devTinder-web:build:production"
+              "buildTarget": "pairUp-web:build:production"
             },
             "development": {
-              "buildTarget": "devTinder-web:build:development"
+              "buildTarget": "pairUp-web:build:development"
             }
           },
           "defaultConfiguration": "development"

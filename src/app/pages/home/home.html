@@ -1,0 +1,97 @@
+<div class="min-h-screen bg-base-200 text-base-content overflow-hidden">
+
+  <!-- Hero Section -->
+  <section class="relative flex flex-col items-center justify-center text-center px-6 py-28">
+
+    <!-- Glow Effects -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"></div>
+
+    <div class="absolute bottom-10 right-10 w-72 h-72 bg-secondary/20 rounded-full blur-3xl"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-4xl">
+
+      <div class="badge badge-primary badge-outline px-4 py-3 mb-6">
+
+        {{ homeConstants.HERO_BADGE }}
+
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tight">
+        {{ homeConstants.HERO_TITLE }}
+      </h1>
+
+      <p class="mt-8 text-lg md:text-xl text-base-content/70 max-w-2xl mx-auto">
+        {{ homeConstants.HERO_DESCRIPTION }}
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+
+        <a [routerLink]="routes.SIGNUP" class="btn btn-primary btn-lg rounded-full px-10">
+          {{ homeConstants.GET_STARTED }}
+        </a>
+
+        <a [routerLink]="routes.LOGIN" class="btn btn-ghost btn-lg rounded-full px-10">
+          {{ appConstants.LOGIN}}
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Features Section -->
+  <section class="px-6 py-20">
+
+    <div class="max-w-7xl mx-auto">
+
+      <div class="text-center mb-16">
+
+        <h2 class="text-4xl font-bold">
+          {{ homeConstants.FEATURES_HEADING }}
+        </h2>
+
+        <p class="mt-4 text-base-content/60 text-lg">
+          {{ homeConstants.FEATURES_SUBHEADING }}
+        </p>
+
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        @for (
+        feature of homeConstants.FEATURE_CARDS;
+        track feature.title
+        ) {
+
+        <div class="card bg-base-100 border border-base-300 shadow-xl hover:shadow-2xl transition-all duration-300">
+
+          <div class="card-body">
+
+            <div class="text-5xl mb-4">
+              {{ feature.icon }}
+            </div>
+
+            <h3 class="card-title text-2xl">
+              {{ feature.title }}
+            </h3>
+
+            <p class="text-base-content/70">
+              {{ feature.description }}
+            </p>
+
+          </div>
+
+        </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
