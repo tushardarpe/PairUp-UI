@@ -5,7 +5,11 @@ export const ROUTES = {
 
   SIGNUP: 'signup',
 
-  PROFILE: 'profile',
-
   FEED: 'feed',
+
+  CONNECTIONS: 'connections',
+
+  REQUESTS: 'requests',
+
+  PROFILE: 'profile',
 } as const;

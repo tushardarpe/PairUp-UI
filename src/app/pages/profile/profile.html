@@ -1,1 +1,31 @@
-<p>profile works!</p>
+<div class="upload-wrapper">
+
+  <button
+    type="button"
+    class="upload-btn"
+    (click)="selectImage()"
+  >
+    Upload Image
+  </button>
+
+  @if (selectedFileName) {
+    <div class="file-name">
+      {{ selectedFileName }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (imagePreview) {
+    <img
+      [src]="imagePreview"
+      alt="Preview"
+      class="preview-image"
+    />
+  }
+
+</div>

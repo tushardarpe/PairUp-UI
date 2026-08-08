@@ -13,15 +13,5 @@ export class App {
   protected readonly title = signal('pairUp-web');
   protected authService = inject(AuthService);
 
-  ngOnInit(): void {
-    this.authService.getProfile().subscribe({
-      next: (user) => {
-        this.authService.currentUser.set(user);
-      },
-
-      error: () => {
-        console.log('No logged in user');
-      },
-    });
-  }
+  ngOnInit(): void {}
 }

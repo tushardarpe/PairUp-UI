@@ -1,1 +1,45 @@
-<p>feed works!</p>
+<div class="min-h-screen bg-base-200 flex items-center justify-center px-4 py-10 overflow-hidden">
+
+    @if (users().length) {
+
+    <div class="relative w-[380px] h-[650px]">
+
+        <!-- Background Card -->
+
+        @for (
+        user of users().slice(1, 2);
+        track user._id
+        ) {
+
+        <div class="absolute top-3 scale-95 opacity-70">
+
+            <app-user-card [user]="user" />
+
+        </div>
+
+        }
+
+        <!-- Active Card -->
+
+        @for (
+        user of users().slice(0, 1);
+        track user._id
+        ) {
+
+        <div class="absolute z-10 transition-all duration-300" [class.swipe-left]="
+                    swipeClass() === 'swipe-left'
+                  " [class.swipe-right]="
+                    swipeClass() === 'swipe-right'
+                  ">
+
+            <app-user-card [user]="user" (interested)="onInterested($event)" (ignored)="onIgnored($event)" />
+
+        </div>
+
+        }
+
+    </div>
+
+    }
+
+</div>

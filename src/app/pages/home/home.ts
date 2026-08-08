@@ -21,12 +21,12 @@ export class Home {
   private router = inject(Router);
 
   constructor() {
-    effect(() => {
-      const isLoggedIn = this.authService.isLoggedIn();
+    // effect(() => {
+    //   const isLoggedIn = this.authService.isLoggedIn();
 
-      if (isLoggedIn) {
-        this.router.navigate([ROUTES.FEED]);
-      }
-    });
+    //   if (isLoggedIn) {
+    //     this.router.navigate([ROUTES.FEED]);
+    //   }
+    // });
   }
 }

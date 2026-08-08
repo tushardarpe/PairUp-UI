@@ -1,0 +1,30 @@
+.upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 320px;
+}
+
+.upload-btn {
+  padding: 10px 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.file-name {
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+
+.preview-image {
+  width: 250px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}

@@ -8,5 +8,13 @@ export const API_CONSTANTS = {
   },
   PROFILE: {
     VIEW: '/api/profile/view',
+    EDIT: '/api/profile/edit',
+  },
+  USER: {
+    CONNECTIONS: '/api/user/connections',
+    REQUESTS_RECEIVED: '/api/user/requests/received',
+  },
+  REQUEST: {
+    REVIEW: '/api/request/review',
   },
 } as const;

@@ -1,0 +1,13 @@
+export const NAVBAR_CONSTANTS = {
+  DISCOVER: 'Discover',
+
+  CONNECTIONS: 'Connections',
+
+  REQUESTS: 'Requests',
+
+  MESSAGES: 'Messages',
+
+  MY_PROFILE: 'My Profile',
+
+  EDIT_PROFILE: 'Edit Profile',
+};

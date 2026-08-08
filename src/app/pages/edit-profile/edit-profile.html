@@ -1,0 +1,374 @@
+<div class="min-h-screen bg-base-200 py-10">
+
+    <div class="max-w-7xl mx-auto px-5">
+
+        <!-- Page Header -->
+
+        <div class="mb-10">
+
+            <h1 class="text-4xl font-black">
+                Edit Profile
+            </h1>
+
+            <p class="text-base-content/60 mt-2">
+                Update your information and see how your profile looks to other developers.
+            </p>
+
+        </div>
+
+
+
+        <div class="grid lg:grid-cols-2 gap-24 items-start">
+
+
+            <!-- ========================= -->
+            <!-- LEFT : FORM -->
+            <!-- ========================= -->
+
+
+            <div class="card bg-base-100 shadow-2xl border border-base-300">
+
+
+                <div class="card-body">
+
+
+                    <form [formGroup]="editProfileForm" (ngSubmit)="saveProfile()" class="space-y-5">
+
+
+                        <!-- First Name -->
+
+                        <div>
+
+                            <label class="label">
+
+                                <span class="label-text font-semibold">
+                                    First Name
+                                </span>
+
+                            </label>
+
+
+                            <input type="text" class="input input-bordered w-full" formControlName="firstName" />
+
+                        </div>
+
+
+
+
+                        <!-- Last Name -->
+
+                        <div>
+
+                            <label class="label">
+
+                                <span class="label-text font-semibold">
+                                    Last Name
+                                </span>
+
+                            </label>
+
+
+                            <input type="text" class="input input-bordered w-full" formControlName="lastName" />
+
+                        </div>
+
+
+
+
+
+                        <!-- Age -->
+
+                        <div>
+
+                            <label class="label">
+
+                                <span class="label-text font-semibold">
+                                    Age
+                                </span>
+
+                            </label>
+
+
+                            <input type="number" class="input input-bordered w-full" formControlName="age" />
+
+                        </div>
+
+
+
+
+
+                        <!-- Gender -->
+
+                        <div>
+
+                            <label class="label">
+
+                                <span class="label-text font-semibold">
+                                    Gender
+                                </span>
+
+                            </label>
+
+
+                            <select class="select select-bordered w-full" formControlName="gender">
+
+
+                                <option value="male">
+                                    Male
+                                </option>
+
+
+                                <option value="female">
+                                    Female
+                                </option>
+
+
+                                <option value="others">
+                                    Others
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
+
+
+
+
+                        <!-- Photo URL -->
+
+                        <div>
+
+
+                            <label class="label">
+
+                                <span class="label-text font-semibold">
+                                    Profile Image URL
+                                </span>
+
+                            </label>
+
+
+
+                            <input type="text" class="input input-bordered w-full" formControlName="photoUrl" />
+
+
+                        </div>
+
+
+
+
+
+
+
+
+                        <!-- About -->
+
+                        <div>
+
+
+                            <label class="label">
+
+                                <span class="label-text font-semibold">
+                                    About
+                                </span>
+
+                            </label>
+
+
+
+                            <textarea rows="5" class="textarea textarea-bordered w-full" formControlName="about">
+
+                            </textarea>
+
+
+                            <div class="text-right text-sm text-base-content/50 mt-1">
+
+                                {{ editProfileForm.value.about?.length || 0 }}/300
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <!-- Skills -->
+
+                        <div>
+
+
+                            <label class="label">
+
+                                <span class="label-text font-semibold">
+                                    Skills
+                                </span>
+
+                            </label>
+
+
+
+                            <div class="flex gap-2">
+
+
+                                <input type="text" class="input input-bordered flex-1" placeholder="Add skill"
+                                    [value]="newSkill()" (input)="newSkill.set($any($event.target).value)" />
+
+
+
+                                <button type="button" class="btn btn-primary" (click)="addSkill()">
+
+                                    Add
+
+                                </button>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="flex flex-wrap gap-2 mt-4">
+
+
+                                @for(skill of skills(); track skill)
+                                {
+
+
+                                <div class="badge badge-primary badge-lg gap-2">
+
+
+                                    {{skill}}
+
+
+                                    <button type="button" (click)="removeSkill(skill)">
+
+                                        ✕
+
+                                    </button>
+
+
+
+                                </div>
+
+
+                                }
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+
+
+
+                        <!-- Buttons -->
+
+
+                        <div class="flex justify-end gap-4 pt-6">
+
+
+                            <button type="button" class="btn btn-outline" (click)="confirmCancel()">
+
+                                Cancel
+
+                            </button>
+
+
+
+                            <button type="submit" class="btn btn-primary px-8" [disabled]="saving()">
+
+                                @if(saving()){
+                                <span class="loading loading-spinner"></span>
+                                Saving...
+                                }
+                                @else{
+                                Save Changes
+                                }
+
+                            </button>
+
+
+                        </div>
+
+
+
+                    </form>
+
+                    <div class="fixed inset-x-0 top-6 z-50 flex justify-center">
+                        @if(showToast()){
+                        <div class="toast">
+                            <div
+                                class="alert {{ toastType() === 'success' ? 'alert-success' : 'alert-error' }} shadow-lg">
+                                <span>{{ toastMessage() }}</span>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="modal" [class.modal-open]="showDiscardModal()">
+                        <div class="modal-box">
+                            <h3 class="font-bold text-lg">Discard changes?</h3>
+                            <p class="py-4">If you discard, your profile edits will not be saved.</p>
+                            <div class="modal-action">
+                                <button type="button" class="btn btn-outline" (click)="stayOnPage()">Stay</button>
+                                <button type="button" class="btn btn-error" (click)="discardChanges()">Discard</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+
+            <!-- ========================= -->
+            <!-- RIGHT : PREVIEW -->
+            <!-- ========================= -->
+
+
+
+            <!-- RIGHT : PREVIEW -->
+
+            <div class="flex justify-center lg:sticky lg:top-24">
+
+                <app-user-card [user]="preview()" [previewMode]="true" />
+
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

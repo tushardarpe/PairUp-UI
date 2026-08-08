@@ -29,9 +29,32 @@
                     </label>
 
                     <input type="email" placeholder="{{ loginConstants.EMAIL_PLACEHOLDER }}"
-                        class="input input-bordered w-full" formControlName="email" />
+                        class="input input-bordered w-full" formControlName="email" [disabled]="loading()"/>
 
                 </div>
+
+                @if (
+                loginForm.get('email')?.touched &&
+                loginForm.get('email')?.invalid
+                ) {
+
+                <div class="text-error text-sm mt-2">
+
+                    @if(loginForm.get('email')?.errors?.['required']) {
+
+                    <span>Email is required.</span>
+
+                    }
+
+                    @if(loginForm.get('email')?.errors?.['email']) {
+
+                    <span>Please enter a valid email.</span>
+
+                    }
+
+                </div>
+
+                }
 
                 <!-- Password -->
                 <div class="form-control mb-2">
@@ -43,9 +66,42 @@
                     </label>
 
                     <input type="password" placeholder="{{ loginConstants.PASSWORD_PLACEHOLDER }}"
-                        class="input input-bordered w-full" formControlName="password" />
+                        class="input input-bordered w-full" formControlName="password" [disabled]="loading()"/>
 
                 </div>
+
+                @if (
+                loginForm.get('password')?.touched &&
+                loginForm.get('password')?.invalid
+                ) {
+
+                <div class="text-error text-sm mt-2">
+
+                    @if(loginForm.get('password')?.errors?.['required']) {
+
+                    <span>Password is required.</span>
+
+                    }
+
+                    @if(loginForm.get('password')?.errors?.['minlength']) {
+
+                    <span>Password must contain at least 8 characters.</span>
+
+                    }
+
+                </div>
+
+                }
+
+                @if(errorMessage()){
+
+                <div class="alert alert-error mt-4">
+
+                    {{errorMessage()}}
+
+                </div>
+
+                }
 
                 <!-- Forgot Password -->
                 <div class="text-right mb-6">
@@ -57,9 +113,21 @@
                 </div>
 
                 <!-- Login Button -->
-                <button type="submit" class="btn btn-primary w-full rounded-full">
+                <button type="submit" class="btn btn-primary w-full rounded-full" [disabled]="loading()">
 
-                    {{ appConstants.LOGIN }}
+                    @if(loading()){
+
+                    <span class="loading loading-spinner"></span>
+
+                    Logging in...
+
+                    }
+
+                    @else{
+
+                    {{appConstants.LOGIN}}
+
+                    }
 
                 </button>
 
@@ -77,7 +145,7 @@
 
                 {{ loginConstants.SIGNUP_TEXT }}
 
-                <a [routerLink]="routes.SIGNUP" class="text-primary font-semibold hover:underline ml-1">
+                <a [routerLink]="['/', routes.SIGNUP]" class="text-primary font-semibold hover:underline ml-1">
                     {{ appConstants.SIGNUP }}
                 </a>
 

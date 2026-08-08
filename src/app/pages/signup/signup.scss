@@ -1,0 +1,13 @@
+.card {
+  border-radius: 2rem;
+}
+
+.btn-primary {
+  min-height: 3rem;
+}
+
+@media (max-width: 640px) {
+  .card {
+    border-radius: 1.5rem;
+  }
+}

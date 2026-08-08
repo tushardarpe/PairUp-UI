@@ -1,0 +1,66 @@
+<div cdkDrag [cdkDragDisabled]="previewMode()" (cdkDragEnded)="onDragEnded($event)"
+    class="relative w-[380px] h-[650px] rounded-[32px] overflow-hidden bg-base-100 shadow-[0_20px_80px_rgba(0,0,0,0.45)] border border-base-300 group transition-all duration-300">
+    <!-- Background Image -->
+
+    <img [src]="user().photoUrl" [alt]="user().firstName || 'user'"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        (error)="onImageError($event)" />
+
+    <!-- Gradient Overlay -->
+
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+
+    <!-- Content -->
+
+    <div class="absolute bottom-0 left-0 w-full p-6 text-white">
+        <!-- Name -->
+
+        <h2 class="text-5xl font-black leading-none">
+            {{ user().firstName }}
+        </h2>
+
+        <h3 class="text-5xl font-black leading-none mt-1">
+            {{ user().lastName }}
+        </h3>
+
+        <!-- About -->
+
+        <p class="mt-5 text-white/80 text-lg leading-relaxed line-clamp-2">
+            {{ user().about }}
+        </p>
+
+        <!-- Skills -->
+
+        @if (user().skills.length) {
+        <div class="flex flex-wrap gap-2 mt-5">
+            @for (skill of user().skills; track skill) {
+            <span class="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm">
+                {{ skill }}
+            </span>
+            }
+        </div>
+        }
+
+        <!-- Action Buttons -->
+
+        @if (!previewMode()) {
+        <div class="flex items-center gap-4 mt-8">
+            <!-- Ignore -->
+
+            <button
+                class="w-16 h-16 rounded-full border border-white/20 bg-black/30 backdrop-blur-md hover:bg-red-500 transition-all duration-300 text-3xl"
+                (click)="ignored.emit(user()._id)">
+                ✕
+            </button>
+
+            <!-- Interested -->
+
+            <button
+                class="flex-1 h-16 rounded-full bg-white text-black font-bold text-lg hover:scale-[1.02] transition-all duration-300"
+                (click)="interested.emit(user()._id)">
+                Interested
+            </button>
+        </div>
+        }
+    </div>
+</div>

@@ -7,7 +7,11 @@ export interface User {
 
   emailId: string;
 
+  age: number;
+
   photoUrl: string;
+
+  gender: string;
 
   about: string;
 

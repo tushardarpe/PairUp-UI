@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LOGIN_CONSTANTS } from '../../../core/constants/login.constants';
 import { APP_CONSTANTS } from '../../../core/constants/app.constants';
@@ -9,6 +9,7 @@ import { LoginRequest } from '../../../core/interfaces/auth/login-request.interf
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss',
@@ -19,34 +20,51 @@ export class Login {
   readonly routes = ROUTES;
   private fb = inject(FormBuilder);
   loginForm = this.fb.group({
-    email: this.fb.nonNullable.control('', [Validators.required]),
-    password: this.fb.nonNullable.control('', [Validators.required]),
+    email: this.fb.nonNullable.control('', [Validators.required, Validators.email]),
+
+    password: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(8)]),
   });
 
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  loading = signal(false);
+
+  errorMessage = signal('');
+
   onSubmit() {
-    console.log(this.loginForm);
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+
+      return;
+    }
+
+    this.loading.set(true);
+
+    this.errorMessage.set('');
+
     const formValue = this.loginForm.getRawValue();
+
     const payload: LoginRequest = {
       emailId: formValue.email,
       password: formValue.password,
     };
 
     this.authService.login(payload).subscribe({
-      next: (response) => {
-        this.authService.currentUser.set(response);
+      next: (user) => {
+        this.loading.set(false);
 
-        console.log(response);
+        this.authService.currentUser.set(user);
 
         this.router.navigate([this.routes.FEED]);
       },
 
-      error: (error) => {
-        console.log('Login Failed');
+      error: (err) => {
+        this.loading.set(false);
 
-        console.log(error);
+        this.loading.set(false);
+
+        this.errorMessage.set(err.error.message);
       },
     });
   }

@@ -20,20 +20,20 @@
 
     <div class="hidden lg:flex items-center gap-2">
 
-        <a class="btn btn-ghost rounded-full">
-            Discover
+        <a [routerLink]="routes.FEED" routerLinkActive="btn-active" class="btn btn-ghost rounded-full">
+            {{ navbarConstants.DISCOVER }}
+        </a>
+
+        <a [routerLink]="routes.CONNECTIONS" routerLinkActive="btn-active" class="btn btn-ghost rounded-full">
+            {{ navbarConstants.CONNECTIONS }}
+        </a>
+
+        <a [routerLink]="routes.REQUESTS" routerLinkActive="btn-active" class="btn btn-ghost rounded-full">
+            {{ navbarConstants.REQUESTS }}
         </a>
 
         <a class="btn btn-ghost rounded-full">
-            Connections
-        </a>
-
-        <a class="btn btn-ghost rounded-full">
-            Requests
-        </a>
-
-        <a class="btn btn-ghost rounded-full">
-            Messages
+            {{ navbarConstants.MESSAGES }}
         </a>
 
     </div>
@@ -84,13 +84,13 @@
 
         <!-- Avatar Dropdown -->
 
-        <div class="dropdown dropdown-end">
+        <div class="dropdown dropdown-end" #avatarDropdown>
 
             <div tabindex="0" role="button" class="avatar cursor-pointer">
 
                 <div class="w-11 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
 
-                    <img [src]="authService.currentUser()?.photoUrl" alt="user" />
+                    <img *ngIf="authService.currentUser()" [src]="authService.currentUser()?.photoUrl" [alt]="authService.currentUser()?.firstName || ''" />
 
                 </div>
 
@@ -131,19 +131,21 @@
 
                 <li>
                     <a>
-                        My Profile
+                        {{ navbarConstants.MY_PROFILE }}
                     </a>
                 </li>
 
                 <li>
-                    <a>
+                    <a routerLink="/profile/edit" (click)="closeDropdown($event)">
+
                         Edit Profile
+
                     </a>
                 </li>
 
                 <li>
                     <a>
-                        Settings
+                        {{ appConstants.SETTINGS }}
                     </a>
                 </li>
 
@@ -151,7 +153,7 @@
 
                 <li>
                     <a class="text-error" (click)="logout()">
-                        Logout
+                        {{ appConstants.LOGOUT }}
                     </a>
                 </li>
 

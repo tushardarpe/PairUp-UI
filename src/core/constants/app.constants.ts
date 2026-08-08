@@ -6,4 +6,8 @@ export const APP_CONSTANTS = {
   LOGIN: 'Login',
 
   SIGNUP: 'Signup',
+
+  LOGOUT: 'Logout',
+
+  SETTINGS: 'Settings',
 } as const;

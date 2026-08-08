@@ -1,0 +1,101 @@
+<div class="min-h-screen bg-base-200 text-base-content">
+  <section class="bg-base-100 py-16 shadow-[0_30px_90px_rgba(15,23,42,0.08)]">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl">
+        <span class="inline-flex items-center rounded-full border border-secondary/25 bg-secondary/5 px-4 py-2 text-sm font-semibold text-secondary">
+          Pending approvals
+        </span>
+        <h1 class="mt-6 text-4xl sm:text-5xl font-black tracking-tight">
+          Connection requests
+        </h1>
+        <p class="mt-4 text-base-content/70 text-lg leading-relaxed max-w-2xl">
+          Review incoming connection requests and approve the people who are the best fit for your network.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mx-auto px-6 py-12">
+    @if (loading()) {
+    <div class="rounded-[2rem] border border-base-300 bg-base-100 p-12 text-center shadow-[0_30px_80px_rgba(15,23,42,0.08)]">
+      <span class="loading loading-spinner loading-lg"></span>
+      <p class="mt-4 text-base-content/70">Loading requests…</p>
+    </div>
+    } @else {
+    @if (errorMessage()) {
+    <div class="rounded-[2rem] border border-error bg-error/10 p-8 text-center text-error shadow-sm">
+      {{ errorMessage() }}
+    </div>
+    } @else if (!requests().length) {
+    <div class="rounded-[2rem] border border-base-300 bg-base-100 p-12 text-center shadow-[0_30px_80px_rgba(15,23,42,0.08)]">
+      <p class="text-sm uppercase tracking-[0.3em] text-base-content/50">No requests right now</p>
+      <h2 class="mt-4 text-3xl font-bold">You are all caught up.</h2>
+      <p class="mt-3 text-base-content/70 leading-relaxed">
+        Check the feed to discover more developers and grow your connections.
+      </p>
+    </div>
+    } @else {
+    <div class="grid gap-6">
+      @for (request of requests(); track request._id) {
+      <article class="rounded-[2rem] border border-base-300 bg-base-100 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)]">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex items-center gap-4">
+            <div class="avatar">
+              <div class="w-24 rounded-3xl overflow-hidden border border-base-300">
+                <img [src]="request.fromUserId.photoUrl" [alt]="request.fromUserId.firstName + ' ' + request.fromUserId.lastName" />
+              </div>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-base-content/50">Requested by</p>
+              <h2 class="mt-2 text-2xl font-bold">{{ request.fromUserId.firstName }} {{ request.fromUserId.lastName }}</h2>
+              <p class="mt-2 text-base-content/70">{{ request.fromUserId.age }} · {{ request.fromUserId.gender }}</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            @for (skill of request.fromUserId.skills; track skill) {
+            <span class="rounded-full border border-base-300 bg-base-200 px-3 py-1 text-sm text-base-content/80">
+              {{ skill }}
+            </span>
+            }
+          </div>
+        </div>
+
+        <div class="mt-6 text-base-content/70 leading-relaxed">
+          {{ request.fromUserId.about || 'No profile summary provided.' }}
+        </div>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            class="btn btn-primary min-w-[160px] rounded-full"
+            [disabled]="activeRequestId() === request._id"
+            (click)="respond(request._id, 'accepted')"
+          >
+            @if(activeRequestId() === request._id) {
+            <span class="loading loading-spinner"></span>
+            Approving…
+            } @else {
+            Accept request
+            }
+          </button>
+
+          <button
+            class="btn btn-outline btn-error min-w-[160px] rounded-full"
+            [disabled]="activeRequestId() === request._id"
+            (click)="respond(request._id, 'rejected')"
+          >
+            @if(activeRequestId() === request._id) {
+            <span class="loading loading-spinner"></span>
+            Rejecting…
+            } @else {
+            Reject request
+            }
+          </button>
+        </div>
+      </article>
+      }
+    </div>
+    }
+    }
+  </section>
+</div>
