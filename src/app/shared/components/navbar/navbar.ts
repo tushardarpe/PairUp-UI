@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { APP_CONSTANTS } from '../../../../core/constants/app.constants';
 import { ROUTES } from '../../../../core/constants/routes.constants';
@@ -18,6 +18,15 @@ export class Navbar {
   protected authService = inject(AuthService);
   private router = inject(Router);
   readonly navbarConstants = NAVBAR_CONSTANTS;
+  menuOpen = signal(false);
+
+  toggleMenu() {
+    this.menuOpen.update((open) => !open);
+  }
+
+  closeMenu() {
+    this.menuOpen.set(false);
+  }
 
   closeDropdown(event: Event) {
     const target = event.target as HTMLElement;
