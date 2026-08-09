@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { User } from '../interfaces/user/user.interface';
+import { API_CONSTANTS } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class FeedService {
 
   getFeed(limit: number): Observable<User[]> {
     return this.http.get<User[]>(
-      `http://localhost:7777/api/user/feed?limit=${limit}`,
+      `${API_CONSTANTS.USER.FEED}?limit=${limit}`,
 
       {
         withCredentials: true,
@@ -24,7 +25,7 @@ export class FeedService {
 
   sendRequest(status: string, userId: string) {
     return this.http.post(
-      `http://localhost:7777/api/request/send/${status}/${userId}`,
+      `${API_CONSTANTS.REQUEST.SEND}/${status}/${userId}`,
 
       {},
 

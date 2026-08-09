@@ -13,8 +13,10 @@ export const API_CONSTANTS = {
   USER: {
     CONNECTIONS: '/api/user/connections',
     REQUESTS_RECEIVED: '/api/user/requests/received',
+    FEED: '/api/user/feed',
   },
   REQUEST: {
+    SEND: '/api/request/send',
     REVIEW: '/api/request/review',
   },
 } as const;
