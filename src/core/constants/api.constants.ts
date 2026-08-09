@@ -1,5 +1,5 @@
 export const API_CONSTANTS = {
-  BASE_URL: 'http://localhost:7777',
+  BASE_URL: '',
 
   AUTH: {
     LOGIN: '/api/auth/login',
