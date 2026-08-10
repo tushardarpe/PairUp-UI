@@ -1,5 +1,5 @@
 export const API_CONSTANTS = {
-  BASE_URL: '',
+  BASE_URL: location.hostname === 'localhost' ? 'http://localhost:7777' : '',
 
   AUTH: {
     LOGIN: '/api/auth/login',

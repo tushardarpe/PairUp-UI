@@ -15,7 +15,7 @@ export class FeedService {
 
   getFeed(limit: number): Observable<User[]> {
     return this.http.get<User[]>(
-      `${API_CONSTANTS.USER.FEED}?limit=${limit}`,
+      `${API_CONSTANTS.BASE_URL}${API_CONSTANTS.USER.FEED}?limit=${limit}`,
 
       {
         withCredentials: true,
@@ -25,7 +25,7 @@ export class FeedService {
 
   sendRequest(status: string, userId: string) {
     return this.http.post(
-      `${API_CONSTANTS.REQUEST.SEND}/${status}/${userId}`,
+      `${API_CONSTANTS.BASE_URL}${API_CONSTANTS.REQUEST.SEND}/${status}/${userId}`,
 
       {},
 
