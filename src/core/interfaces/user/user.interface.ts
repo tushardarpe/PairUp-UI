@@ -20,4 +20,8 @@ export interface User {
   createdAt: string;
 
   updatedAt: string;
+
+  isOnline?: boolean;
+
+  lastSeen?: string;
 }

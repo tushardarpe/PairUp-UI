@@ -1,10 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { ConnectionService } from '../../../core/services/connection.service';
 import { User } from '../../../core/interfaces/user/user.interface';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-connections',
   standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './connections.html',
   styleUrl: './connections.scss',
 })

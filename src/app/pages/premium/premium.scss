@@ -1,0 +1,21 @@
+.premium-glow {
+  position: absolute;
+  z-index: -1;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.3;
+}
+
+.premium-glow-left {
+  top: -8rem;
+  left: -12rem;
+  background: color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.premium-glow-right {
+  right: -12rem;
+  top: 18rem;
+  background: color-mix(in srgb, var(--color-secondary) 35%, transparent);
+}

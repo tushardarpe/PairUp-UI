@@ -7,6 +7,8 @@ export const NAVBAR_CONSTANTS = {
 
   MESSAGES: 'Messages',
 
+  PREMIUM: 'Premium',
+
   MY_PROFILE: 'My Profile',
 
   EDIT_PROFILE: 'Edit Profile',

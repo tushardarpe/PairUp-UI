@@ -19,4 +19,10 @@ export const API_CONSTANTS = {
     SEND: '/api/request/send',
     REVIEW: '/api/request/review',
   },
+  CHAT: {
+    GET_CHATS: '/api/chats',
+  },
+  PAYMENT: {
+    CREATE_ORDER: '/api/payment/create',
+  },
 } as const;

@@ -12,4 +12,8 @@ export const ROUTES = {
   REQUESTS: 'requests',
 
   PROFILE: 'profile',
+
+  CHAT: 'chat',
+
+  PREMIUM: 'premium',
 } as const;

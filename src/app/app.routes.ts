@@ -36,7 +36,8 @@ export const routes: Routes = [
 
   {
     path: ROUTES.REQUESTS,
-    loadComponent: () => import('./pages/connection-requests/connection-requests').then((m) => m.ConnectionRequests),
+    loadComponent: () =>
+      import('./pages/connection-requests/connection-requests').then((m) => m.ConnectionRequests),
     canActivate: [authGuard],
   },
 
@@ -46,8 +47,18 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: ROUTES.PREMIUM,
+    loadComponent: () => import('./pages/premium/premium').then((m) => m.Premium),
+    canActivate: [authGuard],
+  },
+  {
     path: 'profile/edit',
     loadComponent: () => import('./pages/edit-profile/edit-profile').then((m) => m.EditProfile),
+    canActivate: [authGuard],
+  },
+  {
+    path: `${ROUTES.CHAT}/:id`,
+    loadComponent: () => import('./pages/chat/chat').then((m) => m.Chat),
     canActivate: [authGuard],
   },
 

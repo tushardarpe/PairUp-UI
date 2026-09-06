@@ -36,6 +36,10 @@
             {{ navbarConstants.MESSAGES }}
         </a>
 
+        <a [routerLink]="routes.PREMIUM" routerLinkActive="btn-active" class="btn btn-outline btn-primary btn-sm rounded-full px-5">
+            {{ navbarConstants.PREMIUM }}
+        </a>
+
     </div>
 
     }@if (authService.isLoggedIn()) {
@@ -56,6 +60,7 @@
         <a (click)="closeMenu()" [routerLink]="routes.CONNECTIONS" class="btn btn-ghost justify-start rounded-full text-left">{{ navbarConstants.CONNECTIONS }}</a>
         <a (click)="closeMenu()" [routerLink]="routes.REQUESTS" class="btn btn-ghost justify-start rounded-full text-left">{{ navbarConstants.REQUESTS }}</a>
         <a class="btn btn-ghost justify-start rounded-full text-left">{{ navbarConstants.MESSAGES }}</a>
+        <a (click)="closeMenu()" [routerLink]="routes.PREMIUM" class="btn btn-primary justify-start rounded-full text-left">{{ navbarConstants.PREMIUM }}</a>
       </div>
     </div>
 

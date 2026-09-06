@@ -1,0 +1,69 @@
+<main class="min-h-screen overflow-hidden bg-base-200 text-base-content">
+  <section class="relative isolate px-6 pb-16 pt-14 sm:pt-20">
+    <div class="premium-glow premium-glow-left"></div>
+    <div class="premium-glow premium-glow-right"></div>
+
+    <div class="relative z-10 mx-auto max-w-6xl">
+      <div class="text-center">
+        <span class="badge badge-primary badge-outline px-4 py-3 font-semibold tracking-wide">PAIRUP PREMIUM</span>
+        <h1 class="mx-auto mt-6 max-w-3xl text-4xl font-black tracking-tight sm:text-6xl">
+          Put your best connections <span class="text-primary">within reach.</span>
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-base-content/65">
+          Unlock the tools that help you find the right people faster and make every conversation count.
+        </p>
+
+        <div class="mt-8 inline-flex items-center gap-3 rounded-full border border-base-300 bg-base-100 p-1.5 shadow-sm">
+          <button type="button" class="btn btn-sm rounded-full px-5" [class.btn-primary]="billingCycle() === 'monthly'" (click)="setBillingCycle('monthly')">Monthly</button>
+          <button type="button" class="btn btn-sm rounded-full px-5" [class.btn-primary]="billingCycle() === 'yearly'" (click)="setBillingCycle('yearly')">
+            Yearly <span class="badge badge-success badge-sm">Save 20%</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-14 grid items-stretch gap-6 lg:grid-cols-3">
+        @for (plan of plans; track plan.name) {
+          <article class="card relative border-2 bg-base-100 transition duration-300 hover:-translate-y-1 hover:shadow-xl" [ngClass]="plan.accent">
+            @if (plan.popular) {
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2"><span class="badge badge-primary px-4 py-3 font-bold">MOST POPULAR</span></div>
+            }
+            <div class="card-body p-7 sm:p-8">
+              <h2 class="card-title text-2xl">{{ plan.name }}</h2>
+              <p class="mt-1 min-h-12 text-sm leading-relaxed text-base-content/60">{{ plan.description }}</p>
+              <div class="mt-6 flex items-end gap-2">
+                <span class="text-5xl font-black tracking-tight">₹{{ priceFor(plan) }}</span>
+                @if (priceFor(plan) > 0) { <span class="mb-1 text-sm text-base-content/55">/ month</span> }
+              </div>
+              @if (billingCycle() === 'yearly' && priceFor(plan) > 0) { <p class="text-xs font-medium text-success">Billed annually · 20% saved</p> }
+              <div class="my-5 border-t border-base-300"></div>
+              <ul class="flex flex-1 flex-col gap-4 text-sm">
+                @for (feature of plan.features; track feature) {
+                  <li class="flex gap-3"><span class="text-success">✓</span><span>{{ feature }}</span></li>
+                }
+              </ul>
+              <div class="card-actions mt-8">
+                <button type="button" class="btn w-full rounded-full" [class.btn-primary]="plan.popular" [class.btn-outline]="!plan.popular" (click)="selectPlan(plan.name)">
+                  @if (purchasingPlan() === plan.name) { <span class="loading loading-spinner loading-sm"></span> Creating order... }
+                  @else { {{ plan.name === 'PairUp Free' ? 'Current plan' : 'Choose ' + plan.name.replace('PairUp ', '') }} }
+                </button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+
+      @if (paymentError()) {
+        <div class="alert alert-error mt-6" role="alert">{{ paymentError() }}</div>
+      }
+
+      <div class="mt-10 flex flex-col items-center justify-between gap-4 rounded-3xl border border-primary/20 bg-primary/5 px-6 py-5 text-center sm:flex-row sm:text-left">
+        <div><p class="font-bold">Ready to take the next step?</p><p class="text-sm text-base-content/60">You selected {{ selectedPlan() }}. Secure checkout will be available soon.</p></div>
+        <span class="badge badge-ghost px-4 py-3">Razorpay coming soon</span>
+      </div>
+
+      <div class="mt-14 text-center text-sm text-base-content/55">
+        Cancel anytime · Secure payments powered by Razorpay · Built for meaningful connections
+      </div>
+    </div>
+  </section>
+</main>
