@@ -24,5 +24,6 @@ export const API_CONSTANTS = {
   },
   PAYMENT: {
     CREATE_ORDER: '/api/payment/create',
+    VERIFY_PREMIUM: '/api/payment/premium/verify',
   },
 } as const;

@@ -13,14 +13,42 @@
           Unlock the tools that help you find the right people faster and make every conversation count.
         </p>
 
-        <div class="mt-8 inline-flex items-center gap-3 rounded-full border border-base-300 bg-base-100 p-1.5 shadow-sm">
-          <button type="button" class="btn btn-sm rounded-full px-5" [class.btn-primary]="billingCycle() === 'monthly'" (click)="setBillingCycle('monthly')">Monthly</button>
-          <button type="button" class="btn btn-sm rounded-full px-5" [class.btn-primary]="billingCycle() === 'yearly'" (click)="setBillingCycle('yearly')">
-            Yearly <span class="badge badge-success badge-sm">Save 20%</span>
-          </button>
-        </div>
+        @if (isPremiumChecked() && (!isPremium() || showPlans())) {
+          <div class="mt-8 inline-flex items-center gap-3 rounded-full border border-base-300 bg-base-100 p-1.5 shadow-sm">
+            <button type="button" class="btn btn-sm rounded-full px-5" [class.btn-primary]="billingCycle() === 'monthly'" (click)="setBillingCycle('monthly')">Monthly</button>
+            <button type="button" class="btn btn-sm rounded-full px-5" [class.btn-primary]="billingCycle() === 'yearly'" (click)="setBillingCycle('yearly')">
+              Yearly <span class="badge badge-success badge-sm">Save 20%</span>
+            </button>
+          </div>
+        }
       </div>
 
+      @if (!isPremiumChecked()) {
+        <div class="mt-14 text-center text-base-content/60">
+          <span class="loading loading-spinner loading-md"></span>
+          <p class="mt-3">Checking your membership...</p>
+        </div>
+      } @else if (isPremium() && !showPlans()) {
+        <div class="mx-auto mt-14 max-w-2xl rounded-3xl border border-success/30 bg-success/10 p-10 text-center shadow-sm">
+          <div class="text-5xl">✓</div>
+          <h2 class="mt-4 text-3xl font-black text-success">You are already a premium member!</h2>
+          @if (membership()) {
+            <p class="mt-4 text-lg font-semibold">{{ membership()?.type }}</p>
+            <p class="mt-1 text-base-content/70">Current membership duration: {{ membershipDurationLabel() }}</p>
+          } @else {
+            <p class="mt-3 text-base-content/70">Enjoy all the premium features available on PairUp.</p>
+          }
+          <button type="button" class="btn btn-primary mt-6 rounded-full" (click)="showPlans.set(true)">
+            Change membership plan
+          </button>
+        </div>
+      } @else {
+      @if (isPremium()) {
+        <div class="mt-14 flex items-center justify-between rounded-2xl border border-primary/20 bg-primary/5 px-5 py-4">
+          <span class="font-semibold">Choose a different membership plan</span>
+          <button type="button" class="btn btn-ghost btn-sm" (click)="showPlans.set(false)">Keep current plan</button>
+        </div>
+      }
       <div class="mt-14 grid items-stretch gap-6 lg:grid-cols-3">
         @for (plan of plans; track plan.name) {
           <article class="card relative border-2 bg-base-100 transition duration-300 hover:-translate-y-1 hover:shadow-xl" [ngClass]="plan.accent">
@@ -60,6 +88,7 @@
         <div><p class="font-bold">Ready to take the next step?</p><p class="text-sm text-base-content/60">You selected {{ selectedPlan() }}. Secure checkout will be available soon.</p></div>
         <span class="badge badge-ghost px-4 py-3">Razorpay coming soon</span>
       </div>
+      }
 
       <div class="mt-14 text-center text-sm text-base-content/55">
         Cancel anytime · Secure payments powered by Razorpay · Built for meaningful connections

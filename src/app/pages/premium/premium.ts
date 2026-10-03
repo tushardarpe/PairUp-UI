@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PaymentService } from '../../../core/services/payment.service';
+import { firstValueFrom } from 'rxjs';
+import { PaymentService, PremiumVerificationResponse } from '../../../core/services/payment.service';
 
 type BillingCycle = 'monthly' | 'yearly';
 
@@ -54,6 +55,44 @@ export class Premium {
   selectedPlan = signal('PairUp Pro');
   purchasingPlan = signal<string | null>(null);
   paymentError = signal('');
+  isPremium = signal(false);
+  isPremiumChecked = signal(false);
+  showPlans = signal(false);
+  membership = signal<PremiumVerificationResponse['membership']>(null);
+
+  constructor() {
+    void this.verifyPremiumUser();
+  }
+
+  async verifyPremiumUser() {
+    try {
+      const response = await firstValueFrom(this.paymentService.verifyPremiumUser());
+      this.isPremium.set(response.isPremium);
+      this.membership.set(
+        response.membership ??
+          (response.membershipType
+            ? { type: response.membershipType, duration: response.duration ?? null }
+            : null),
+      );
+      return response.isPremium;
+    } catch {
+      this.isPremium.set(false);
+      return false;
+    } finally {
+      this.isPremiumChecked.set(true);
+    }
+  }
+
+  async handlePaymentSuccess(response: Record<string, string>) {
+    console.log('Payment completed:', response);
+    await this.verifyPremiumUser();
+    this.showPlans.set(false);
+  }
+
+  membershipDurationLabel() {
+    const duration = this.membership()?.duration;
+    return duration === 'yearly' ? 'Yearly' : duration === 'monthly' ? 'Monthly' : 'Not available';
+  }
 
   readonly plans: Plan[] = [
     {
@@ -136,6 +175,9 @@ export class Premium {
             },
             theme: {
               color: '#F37254',
+            },
+            handler: (response) => {
+              void this.handlePaymentSuccess(response);
             },
           };
 
